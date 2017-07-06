@@ -4,17 +4,25 @@ This application is a simple program that counts number of nucleotides in a **\*
 Goal of this project is to demonstrate how to build an application/service that will run as a standalone program, as well as a component of a pipeline.
 
 
+**Installation**
+```
+user@machine:~$ cd ~
+user@machine:~$ mkdir -p pipeline && cd pipeline
+user@machine:~/pipeline$ git clone https://github.com/ldynia/nucleotide-counter
+user@machine:~/pipeline$ cd nucleotide-counter/
+```
+
 **Create application's container**
 Using `docekr-compose` create running container.
 ```
-$ docker-compose up -d
+user@machine:~/pipeline/nucleotide-counter$ docker-compose up -d
 ```
 
 **Test application**
 Run application's test.
 
 ```
-$ docker exec nucleotide_1.0 python test/test.py
+user@machine:~/pipeline/nucleotide-counter$ docker exec nucleotide_1.0 python test/test.py
 ----------------------------------------------------------------------
 Ran 1 test in 0.001s
 
@@ -24,6 +32,6 @@ OK
 **Run application**
 Run program.
 ```
-$ docker exec nucleotide_1.0 ntcounter data/dna.fsa
+user@machine:~/pipeline/nucleotide-counter$ docker exec nucleotide_1.0 ntcounter data/dna.fsa
 {"A": 333, "C": 454, "T": 303, "G": 469
 ```
