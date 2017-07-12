@@ -12,7 +12,7 @@ from src.statistics import Statistic
 
 class AppTestCase(unittest.TestCase):
 
-    FILE_PATH = 'data/dna.fsa'
+    FILE_PATH = '/app/data/dna.fsa'
 
     def test_nucleotides_count(self):
         data_fle = open(self.FILE_PATH)
