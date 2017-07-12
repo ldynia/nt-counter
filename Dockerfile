@@ -2,6 +2,9 @@ FROM alpine:3.6
 
 MAINTAINER Lukasz Dynowski ludd@bioinformatics.dtu.dk
 
+# Set environment variables
+ENV PATH $PATH:/usr/local/bin
+
 # Add startup script
 ADD scripts/startup.sh /docker/startup.sh
 
@@ -21,9 +24,11 @@ RUN apk add \
 # Remove temp and cached files
 RUN rm  -rf /tmp/* /var/cache/apk/*
 
-# Generate ssh keys
+# Generate ssh keys and set up ssh config
+RUN mkdir -p /var/run/sshd /root/.ssh
 RUN ssh-keygen -A
-RUN mkdir -p /var/run/sshd
+RUN sed -i 's/#PermitUserEnvironment no/PermitUserEnvironment yes/' /etc/ssh/sshd_config
+RUN echo "PATH=$PATH" >> /root/.ssh/environment
 
 # Install application wide packages
 RUN pip install -r requirements.txt

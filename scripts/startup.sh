@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/ash
 # Docker startup script
 
-echo "Start ssh deamon in foreground"
+echo "Ssh deamon started in foreground"
 /usr/sbin/sshd -D
 
 exec "$@"
