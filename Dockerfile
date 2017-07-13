@@ -5,6 +5,9 @@ MAINTAINER Lukasz Dynowski ludd@bioinformatics.dtu.dk
 # Set environment variables
 ENV PATH $PATH:/usr/local/bin
 
+# Create pipline common directories
+VOLUME ["/pipeline/data", "/pipeline/results"]
+
 # Add startup script
 ADD scripts/startup.sh /docker/startup.sh
 
