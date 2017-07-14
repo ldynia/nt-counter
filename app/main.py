@@ -11,15 +11,21 @@ import argparse
 from src.statistics import Statistic
 
 
-parser = argparse.ArgumentParser(description='Program extracts statistical data from fsa file')
-parser.add_argument('file_path', metavar='file_path', type=str, nargs='+', help='Path to fsa file')
+parser = argparse.ArgumentParser(description="Program counts codons found in a fsa file.")
+parser.add_argument("-f", "--file_path", default=None, help="path to fsa file")
+parser.add_argument("-o", "--output_path", default=None, help="program's output path")
+
+args = parser.parse_args()
 
 DATA_FILE = None
-FILE_PATH = parser.parse_args().file_path[0]
+FILE_PATH = args.file_path
+OUTPUT_PATH = args.output_path
 
 try:
     assert os.path.exists(FILE_PATH), "Requested file does not exist."
     assert FILE_PATH.endswith('fsa'), "Requested file is not a fsa file."
+    if OUTPUT_PATH is not None:
+        assert os.path.exists(OUTPUT_PATH), "Output path does not exist."
 
     DATA_FILE = open(FILE_PATH)
     content = DATA_FILE.read()
@@ -34,4 +40,11 @@ stats = Statistic(DATA_FILE)
 
 results = stats.count_nucleotides()
 
-print(json.dumps(results))
+data = json.dumps(results)
+if OUTPUT_PATH:
+    OUTPUT_PATH = OUTPUT_PATH + "output.json"
+    with open(OUTPUT_PATH, 'w') as output_file:
+        output_file.write(data)
+        print("Data was saved at: " + OUTPUT_PATH)
+else:
+    print(data)
