@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 """
 author: Lukasz Dynowski
 email: ludd@bioinforamtics.dtu.dk
