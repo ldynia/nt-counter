@@ -37,8 +37,8 @@ RUN echo "PATH=$PATH" >> /root/.ssh/environment
 RUN pip install -r requirements.txt
 
 # Execute script as a global program
-RUN ln -s /app/main.py /usr/local/bin/ntcounter
-RUN chmod +x /usr/local/bin/ntcounter
+RUN ln -s /app/main.py /usr/local/bin/ntcount
+RUN chmod +x /usr/local/bin/ntcount
 
 # Startup script
 ENTRYPOINT ["sh", "/docker/startup.sh"]
