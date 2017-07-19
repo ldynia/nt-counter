@@ -6,5 +6,5 @@ services:
     image: ldynia/nucleotide:1.0
     build: .
     restart: always
-    container_name: nucleotide_1.0
+    container_name: nucleotide
     command: sh scripts/startup.sh
