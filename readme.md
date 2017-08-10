@@ -33,6 +33,6 @@ OK
 Run program.
 
 ```bash
-user@machine:~/pipeline/nucleotide-counter$ docker exec nucleotide ntcount data/dna.fsa
+user@machine:~/pipeline/nucleotide-counter$ docker exec nucleotide ntcount -f data/dna.fsa
 {"A": 333, "C": 454, "T": 303, "G": 469
 ```
