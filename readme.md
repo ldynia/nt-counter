@@ -34,5 +34,5 @@ Run program.
 
 ```bash
 user@machine:~/pipeline/nucleotide-counter$ docker exec nucleotide ntcount data/dna.fsa
-{"A": 333, "C": 454, "T": 303, "G": 469
+{"A": 333, "C": 454, "T": 303, "G": 469, "random": true}
 ```

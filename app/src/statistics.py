@@ -3,11 +3,11 @@ author: Lukasz Dynowski
 email: ludd@bioinforamtics.dtu.dk
 license: MIT
 """
-
+import random
 
 class Statistic():
     """
-    Example: fsa-analyzer data/dna.fsa | python -m json.tool
+    Example: ntcount -f data/dna.fsa | python -m json.tool
     """
 
     def __init__(self, data_file):
@@ -18,6 +18,7 @@ class Statistic():
 
     def count_nucleotides(self):
         results = {}
+        results['random'] = random.choice([True, False])
         self.data_file.seek(0)
         for line in self.data_file:
             line = line.strip('\n')
