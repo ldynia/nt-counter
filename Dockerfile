@@ -1,44 +1,34 @@
-FROM alpine:3.6
+FROM python:3.8.3-alpine
 
-MAINTAINER Lukasz Dynowski ludd@bioinformatics.dtu.dk
+MAINTAINER Lukasz Dynowski ludd@food.dtu.dk
 
-# Set environment variables
-ENV PATH $PATH:/usr/local/bin
-
-# Create pipline common directories
-VOLUME ["/pipeline/data", "/pipeline/results"]
-
-# Add startup script
-ADD scripts/startup.sh /docker/startup.sh
-
-# Copy app dir form host into image
+# Copy app directory
 COPY ./app /app
+COPY ./test /app/test
+COPY ./data /app/data
+COPY ./requirements.txt /app/requirements.txt
+
+# Make app working directory
 WORKDIR /app
 
-# OS Update & Upgrade
-RUN apk update && apk upgrade
+# Create exec user & group
+RUN sed -i '/999/d;' /etc/group
+RUN addgroup -Sg 999 exec
+RUN adduser -SD -h /app -G exec -u 999 exec
 
-# Install packages
-RUN apk add \
-  openssh \
-  python \
-  py-pip
-
-# Remove temp and cached files
-RUN rm  -rf /tmp/* /var/cache/apk/*
-
-# Generate ssh keys and set up ssh config
-RUN mkdir -p /var/run/sshd /root/.ssh
-RUN ssh-keygen -A
-RUN sed -i 's/#PermitUserEnvironment no/PermitUserEnvironment yes/' /etc/ssh/sshd_config
-RUN echo "PATH=$PATH" >> /root/.ssh/environment
+# Fix permissions
+RUN chown -R 999:999 /app
 
 # Install application wide packages
 RUN pip install -r requirements.txt
 
 # Execute script as a global program
-RUN ln -s /app/main.py /usr/local/bin/ntcount
-RUN chmod +x /usr/local/bin/ntcount
+RUN ln -s /app/src/main.py /usr/local/bin/ntc
+RUN chmod +x /usr/local/bin/ntc
 
-# Startup script
-ENTRYPOINT ["sh", "/docker/startup.sh"]
+# I/O data directory
+VOLUME /app/data
+
+USER exec
+
+CMD /bin/sh

@@ -1,28 +1,29 @@
-#!/usr/bin/env python
-"""
-author: Lukasz Dynowski
-email: ludd@bioinforamtics.dtu.dk
-license: MIT
-"""
-import os
-import json
-import time
+#!/usr/bin/env python3
+
 import argparse
-from src.statistics import Statistic
+import json
+import os
+import time
+import sys
+from statistics import Statistic
 
-
-parser = argparse.ArgumentParser(description="Program counts codons found in a fsa file.")
-parser.add_argument("-f", "--file_path", default=None, help="path to fsa file")
-parser.add_argument("-o", "--output_path", default=None, help="program's output path")
+parser = argparse.ArgumentParser(description="Program counts nucleotides found in FASTA file.")
+parser.add_argument("-i", "--input-file", type=argparse.FileType('r'), nargs='+', default=None, help="Path to FASTA file(s). If more than one file is provided then use space as separator.")
+parser.add_argument("-o", "--output-dir", default=None, help="Path to output directory.")
 
 args = parser.parse_args()
 
-DATA_FILE = None
-FILE_PATH = args.file_path
-OUTPUT_DIR = args.output_path
 
-if OUTPUT_DIR is not None and not os.path.exists(OUTPUT_DIR):
-    os.makedirs(OUTPUT_DIR)
+def quit(status_code, err):
+    print(err)
+    exit(status_code)
+
+
+if args.output_dir:
+    try:
+        os.makedirs(args.output_dir, exist_ok=True)
+    except PermissionError as e:
+        quit(1, e)
 
 try:
     assert os.path.exists(FILE_PATH), "Requested file does not exist."
