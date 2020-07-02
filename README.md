@@ -44,7 +44,6 @@ $ docker exec ntcounter python /app/test/test.py
 Ran 1 test in 0.000s
 
 OK
-```
 
 $ docker run --rm ldynia/ntc:1.0 ntc -i test/data/dna.fsa | python -m json.tool
 {
