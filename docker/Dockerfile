@@ -23,7 +23,7 @@ RUN adduser -SD -h /app -G exec -u 999 exec
 RUN chown -R 999:999 /app
 
 # Install application wide packages
-RUN pip install -r requirements.txt
+RUN pip install pika==1.0.0
 
 # Execute /app/src/main.py as a global program 'ntc'
 RUN ln -s /app/src/main.py /usr/local/bin/ntc
