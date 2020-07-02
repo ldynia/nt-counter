@@ -3,14 +3,13 @@
 import argparse
 import json
 import os
-import time
 import sys
+import time
 from statistics import Statistic
 
 parser = argparse.ArgumentParser(description="Program counts nucleotides found in FASTA file.")
 parser.add_argument("-i", "--input-file", type=argparse.FileType('r'), nargs='+', default=None, help="Path to FASTA file(s). If more than one file is provided then use space as separator.")
 parser.add_argument("-o", "--output-dir", default=None, help="Path to output directory.")
-
 args = parser.parse_args()
 
 
@@ -19,34 +18,44 @@ def quit(status_code, err):
     exit(status_code)
 
 
+def validate_file(file):
+    try:
+        header = file.readline()
+        content = file.readline()
+        fname = file.name.strip('/')[-1]
+        assert header != "", f"File '{fname}' is empty."
+        assert header[0] == ">", f"File '{fname}' isn't a FASTA file."
+        assert content != "", f"File '{fname}' has no content."
+    except AssertionError as err:
+        quit(1, err)
+
+
+if args.output_dir is None and args.input_file is None:
+    parser.print_help()
+
 if args.output_dir:
     try:
+        assert args.output_dir.startswith('/'),  f"Output directory '{args.output_dir}' MUST starts with absolute path."
+
         os.makedirs(args.output_dir, exist_ok=True)
-    except PermissionError as e:
-        quit(1, e)
+    except AssertionError as err:
+        quit(1, err)
+    except PermissionError as err:
+        quit(1, err)
 
-try:
-    assert os.path.exists(FILE_PATH), "Requested file does not exist."
-    assert FILE_PATH.endswith('fsa'), "Requested file is not a fsa file."
 
-    DATA_FILE = open(FILE_PATH)
-    content = DATA_FILE.read()
+if args.input_file:
+    for file in args.input_file:
+        validate_file(file)
 
-    assert content != "", "Requested file is empty."
-    assert content[0] == ">", "Requested file is not valid fsa file."
-except AssertionError as err:
-    print("Error:", err.message)
-    exit()
+    results = {}
+    for file in args.input_file:
+        fname = file.name.strip('/')[-1]
+        results[fname] = Statistic(file).count_nucleotides()
 
-stats = Statistic(DATA_FILE)
-
-results = stats.count_nucleotides()
-
-data = json.dumps(results)
-if OUTPUT_DIR:
-    output_file = OUTPUT_DIR + "/output.json"
-    with open(output_file, 'w') as of:
-        of.write(data)
-        print("Data was saved at: " + OUTPUT_DIR)
-else:
-    print(data)
+    json_data = json.dumps(results)
+    if args.output_dir:
+        with open(f'{args.output_dir}/results.json', 'w') as of:
+            of.write(json_data)
+    else:
+        print(json_data)
