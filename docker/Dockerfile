@@ -9,7 +9,6 @@ ENV PYTHONIOENCODING=UTF-8
 COPY ./app /app
 COPY ./test /app/test
 COPY ./data /app/data
-COPY ./requirements.txt /app/requirements.txt
 
 # Make app working directory
 WORKDIR /app
