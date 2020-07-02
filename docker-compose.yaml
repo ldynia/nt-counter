@@ -6,7 +6,7 @@ services:
       context: ./
       dockerfile: docker/Dockerfile
     restart: always
-    container_name: ntc
+    container_name: ntcounter
     volumes:
       - ./app:/app
       - ./test:/app/test

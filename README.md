@@ -1,38 +1,57 @@
 # Nucleotides Counter
-Goal of this project is to demonstrate how to build an application/service that will run as a standalone program/microservice. Additionally, program/microservice can be incorporate to a data pipeline.
+The goal of this project is to show you how to build an application that will run as a backend service in new CGE framework.
 
-The docekr image contains an application that counts number of codons in a **\*.fsa** file. The application is written in [python](https://www.python.org/) and deployed with [docker](https://docker.com/).
+This application counts number of nucleoties in a [FASTA](http://www.cbs.dtu.dk/services/NetGene2/fasta.php) file. Solution is written in [python](https://www.python.org/) and deployed with [docker](https://docker.com/).
 
 
 ## Installation
 ```bash
-user@machine:~$ cd ~
-user@machine:~$ mkdir -p pipeline && cd pipeline
-user@machine:~/pipeline$ git clone https://github.com/ldynia/nucleotide-counter
-user@machine:~/pipeline$ cd nucleotide-counter/
+$ git clone https://github.com/ldynia/nt-counter
+$ cd nt-counter/
 ```
 
 ## Create application's container
+Using `docekr`.
+
+```bash
+$ docker run --rm ldynia/ntc:1.0 python test/test.py
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+
+$ docker run --rm ldynia/ntc:1.0 ntc -i test/data/dna.fsa | python -m json.tool
+{
+    "a": {
+        "A": 333,
+        "C": 454,
+        "G": 469,
+        "T": 303
+    }
+}
+```
+
 Using `docekr-compose` create running container.
 
 ```bash
-user@machine:~/pipeline/nucleotide-counter$ docker-compose up -d
-```
-
-## Test application
-Run application's test.
-
-```bash
-user@machine:~/pipeline/nucleotide-counter$ docker exec nucleotide python test/test.py
+$ docker-compose build
+$ docker-compose up -d
+$ docker exec ntcounter python /app/test/test.py
+.
 ----------------------------------------------------------------------
-Ran 1 test in 0.001s
+Ran 1 test in 0.000s
+
 OK
 ```
 
-## Run application
-Run program.
-
-```bash
-user@machine:~/pipeline/nucleotide-counter$ docker exec nucleotide ntcount -f data/dna.fsa
-{"A": 333, "C": 454, "T": 303, "G": 469, "random": true}
+$ docker run --rm ldynia/ntc:1.0 ntc -i test/data/dna.fsa | python -m json.tool
+{
+    "a": {
+        "A": 333,
+        "C": 454,
+        "G": 469,
+        "T": 303
+    }
+}
 ```

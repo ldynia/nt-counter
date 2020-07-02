@@ -3,5 +3,6 @@
 *.pyo
 *.log
 .ash_history
+\.ash_history
 /app/data/*
 /app/test/*
