@@ -2,6 +2,9 @@ FROM python:3.8.3-alpine
 
 MAINTAINER Lukasz Dynowski ludd@food.dtu.dk
 
+ENV PYTHONUNBUFFERED=True
+ENV PYTHONIOENCODING=UTF-8
+
 # Copy app directory
 COPY ./app /app
 COPY ./test /app/test
