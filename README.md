@@ -8,6 +8,7 @@ This application counts number of nucleoties in a [FASTA](http://www.cbs.dtu.dk/
 ```bash
 $ git clone https://github.com/ldynia/nt-counter
 $ cd nt-counter/
+$ docker build -t ldynia/ntc:1.0 -f docker/Dockerfile .
 ```
 
 ## Create application's container
