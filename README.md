@@ -1,7 +1,11 @@
 # Nucleotides Counter
 The goal of this project is to show you how to build an application that will run as a backend service in new CGE framework.
 
-This application counts number of nucleotide in a [FASTA](http://www.cbs.dtu.dk/services/NetGene2/fasta.php) file. Solution is written in [python](https://www.python.org/) and deployed with [docker](https://docker.com/).
+This application counts number of nucleotides in a [FASTA](http://www.cbs.dtu.dk/services/NetGene2/fasta.php) 
+
+## Requirements
+* [docker](https://docker.com/)
+* [python](https://www.python.org/) 
 
 
 ## Installation
