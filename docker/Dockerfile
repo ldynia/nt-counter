@@ -2,11 +2,13 @@ FROM python:3.8.3-alpine
 
 MAINTAINER Lukasz Dynowski ludd@food.dtu.dk
 
+ENV PYTHONUNBUFFERED=True
+ENV PYTHONIOENCODING=UTF-8
+
 # Copy app directory
 COPY ./app /app
 COPY ./test /app/test
 COPY ./data /app/data
-COPY ./requirements.txt /app/requirements.txt
 
 # Make app working directory
 WORKDIR /app
@@ -20,7 +22,7 @@ RUN adduser -SD -h /app -G exec -u 999 exec
 RUN chown -R 999:999 /app
 
 # Install application wide packages
-RUN pip install -r requirements.txt
+RUN pip install pika==1.0.0
 
 # Execute /app/src/main.py as a global program 'ntc'
 RUN ln -s /app/src/main.py /usr/local/bin/ntc
