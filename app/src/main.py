@@ -50,8 +50,8 @@ if args.input_file:
 
     results = {}
     for file in args.input_file:
-        fname = file.name.strip('/')[-1]
-        results[fname] = Statistic(file).count_nucleotides()
+        count = Statistic(file.name).count_nucleotides()
+        results.update(count)
 
     json_data = json.dumps(results)
     if args.output_dir:

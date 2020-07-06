@@ -22,13 +22,19 @@ Ran 1 test in 0.000s
 
 OK
 
-$ docker run --rm ldynia/ntc:1.0 ntc -i test/data/dna.fsa | python -m json.tool
+$ docker run --rm ldynia/ntc:1.0 ntc -i test/data/dna_one.fsa test/data/dna_two.fsa
 {
-    "a": {
-        "A": 333,
-        "C": 454,
+    "dna_one.fsa": {
         "G": 469,
-        "T": 303
+        "A": 333,
+        "T": 303,
+        "C": 454
+    },
+    "dna_two.fsa": {
+        "G": 135,
+        "A": 65,
+        "T": 64,
+        "C": 96
     }
 }
 ```
@@ -45,13 +51,19 @@ Ran 1 test in 0.000s
 
 OK
 
-$ docker run --rm ldynia/ntc:1.0 ntc -i test/data/dna.fsa | python -m json.tool
+$ docker run --rm ldynia/ntc:1.0 ntc -i test/data/dna_one.fsa test/data/dna_two.fsa
 {
-    "a": {
-        "A": 333,
-        "C": 454,
+    "dna_one.fsa": {
         "G": 469,
-        "T": 303
+        "A": 333,
+        "T": 303,
+        "C": 454
+    },
+    "dna_two.fsa": {
+        "G": 135,
+        "A": 65,
+        "T": 64,
+        "C": 96
     }
 }
 ```
